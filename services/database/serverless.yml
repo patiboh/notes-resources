@@ -1,0 +1,45 @@
+service: ${env:APP_NAME}-database
+
+custom:
+  # The stage is based on what is passed in to the serverless commmand
+  # In nothing is passed in, it fallsback to what is set in the provider section
+  stage: ${opt:stage, self:provider.stage}
+  # Set the table name here so we cas use it while testing locally
+  tableName: ${self:custom.stage}-${env:APP_NAME}
+
+provider:
+  name: aws
+  stage: dev
+  region: ${env:REGION}
+
+resources:
+  Resources:
+    NotesTable:
+      Type: AWS::DynamoDB::Table
+      # DeletionPolicy: Retain
+      Properties:
+        # Generate a table name based on the stage
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: noteId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: noteId
+            KeyType: RANGE
+        # Set the capacity to autoscale
+        BillingMode: PAY_PER_REQUEST
+
+  Outputs:
+    NotesTableArn:
+      Value:
+        Fn::GetAtt:
+          - NotesTable
+          - Arn
+      Export:
+        # Generate an ARN for the DynamoDB instance based on the stage
+        # Use this ARN to reference it from other services / IAM roles (cross-stack references)
+        Name: ${self:custom.stage}-NotesTableArn
