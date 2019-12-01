@@ -42,4 +42,4 @@ resources:
       Export:
         # Generate an ARN for the DynamoDB instance based on the stage
         # Use this ARN to reference it from other services / IAM roles (cross-stack references)
-        Name: ${self:custom.stage}-${env:APP_NAME}-TableArn
+        Name: ${self:custom.stage}-ExtNotesTableArn

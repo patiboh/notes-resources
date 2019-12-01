@@ -121,4 +121,4 @@ resources:
       Value:
         Ref: CognitoAuthRole
       Export:
-        Name: CognitoAuthRole-${env:APP_NAME}-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint
+        Name: ExtCognitoAuthRole-${env:APP_NAME}-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint
