@@ -1,4 +1,4 @@
-service: ${env:APP_NAME}-auth
+service: notes-auth
 
 custom:
   # The stage is based on what is passed in to the serverless commmand
@@ -8,7 +8,7 @@ custom:
 provider:
   name: aws
   stage: dev
-  region: ${env:REGION}
+  region: eu-central-1
 
 resources:
   Resources:
@@ -17,7 +17,7 @@ resources:
       Type: AWS::Cognito::UserPool
       Properties:
         # Generate a name based on the stage
-        UserPoolName: ${self:custom.stage}-${env:APP_NAME}-user-pool
+        UserPoolName: ${self:custom.stage}-notes-user-pool
         # Set email as an alias
         UsernameAttributes:
           - email
@@ -28,7 +28,7 @@ resources:
       Type: AWS::Cognito::UserPoolClient
       Properties:
         # Generate an app client name based on the stage
-        ClientName: ${self:custom.stage}-${env:APP_NAME}-user-pool-client
+        ClientName: ${self:custom.stage}-notes-user-pool-client
         UserPoolId:
           Ref: CognitoUserPool
         ExplicitAuthFlows:
@@ -40,7 +40,7 @@ resources:
       Type: AWS::Cognito::IdentityPool
       Properties:
         # Generate a name based on the stage
-        IdentityPoolName: notes-${self:custom.stage}-${env:APP_NAME}-IdentityPool
+        IdentityPoolName: notes-${self:custom.stage}-notes-IdentityPool
         # Don't allow unauthenticated users
         AllowUnauthenticatedIdentities: false
         # Link to out User Pool
@@ -121,4 +121,4 @@ resources:
       Value:
         Ref: CognitoAuthRole
       Export:
-        Name: ExtCognitoAuthRole-${env:APP_NAME}-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint
+        Name: ExtCognitoAuthRole-notes-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint

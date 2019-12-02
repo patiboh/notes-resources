@@ -1,16 +1,16 @@
-service: ${env:APP_NAME}-database
+service: notes-database
 
 custom:
   # The stage is based on what is passed in to the serverless commmand
   # In nothing is passed in, it fallsback to what is set in the provider section
   stage: ${opt:stage, self:provider.stage}
   # Set the table name here so we cas use it while testing locally
-  tableName: ${self:custom.stage}-${env:APP_NAME}
+  tableName: ${self:custom.stage}-notes
 
 provider:
   name: aws
   stage: dev
-  region: ${env:REGION}
+  region: eu-central-1
 
 resources:
   Resources:
