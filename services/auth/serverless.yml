@@ -98,7 +98,7 @@ resources:
                   Resource:
                     - Fn::Join:
                         - ''
-                        - - 'Fn::ImportValue': notes-${self:custom.stage}-ExtUploadsBucket
+                        - - 'Fn::ImportValue': notes-${self:custom.stage}-ExtUploadsBucketArn
                           - '/private/'
                           - '$'
                           - '{cognito-identity.amazonaws.com:sub}/*'
