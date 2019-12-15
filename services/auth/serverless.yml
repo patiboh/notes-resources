@@ -98,7 +98,7 @@ resources:
                   Resource:
                     - Fn::Join:
                         - ''
-                        - - 'Fn::ImportValue': notes-${self:custom.stage}-ExtUploadsBucketArn
+                        - - 'Fn::ImportValue': notes-${self:custom.stage}-UploadsBucketArn
                           - '/private/'
                           - '$'
                           - '{cognito-identity.amazonaws.com:sub}/*'
@@ -121,4 +121,4 @@ resources:
       Value:
         Ref: CognitoAuthRole
       Export:
-        Name: ExtCognitoAuthRole-notes-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint
+        Name: CognitoAuthRole-notes-${self:custom.stage} # Needed by API service to invoke API Gateway endpoint
